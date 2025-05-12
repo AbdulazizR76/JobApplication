@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace JobApplication.Models
 {
@@ -70,6 +71,18 @@ namespace JobApplication.Models
         public string Email { get; set; }
 
         [Required]
+        [Display(Name = "Full Name")]
+        public string Name { get; set; }
+
+        [Display(Name = "Position")]
+        public string Position { get; set; }
+
+        [Display(Name = "Department")]
+        [Required(ErrorMessage = "Please select a department.")]
+        public int? DepartmentId { get; set; }
+        public IEnumerable<SelectListItem> DepartmentList { get; set; }
+
+        [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
@@ -77,7 +90,7 @@ namespace JobApplication.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -96,7 +109,7 @@ namespace JobApplication.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

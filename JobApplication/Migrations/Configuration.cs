@@ -1,9 +1,8 @@
 ﻿namespace JobApplication.Migrations
 {
-    using System;
-    using System.Data.Entity;
+    using JobApplication.Models;
+    using JobApplication.Utilty;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<JobApplication.Models.ApplicationDbContext>
     {
@@ -18,6 +17,15 @@
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
+
+            context.Departments.AddOrUpdate(
+                d => d.Code,
+                    new Department { Code = SD.DepartmentCode_HR, Name = "Human Resources" },
+                    new Department { Code = SD.DepartmentCode_IT, Name = "Information Technology" },
+                    new Department { Code = SD.DepartmentCode_Finance, Name = "Finance" },
+                    new Department { Code = SD.DepartmentCode_Marketing, Name = "Marketing" }
+
+                );
         }
     }
 }

@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Microsoft.AspNet.Identity;
 using System.Web.Mvc;
 
 namespace JobApplication.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
+            var username = User.Identity.Name;
+            var userId = User.Identity.GetUserId();
+            ViewBag.username = username;
+            ViewBag.userId = userId;
             return View();
         }
 

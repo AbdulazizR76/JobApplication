@@ -1,7 +1,6 @@
 using Autofac;
 using Autofac.Integration.Mvc;
 using JobApplication.Models;
-using Microsoft.AspNet.Identity.Owin;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
@@ -23,13 +22,7 @@ namespace JobApplication
             builder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerRequest();
             // Register other services if needed here...
             // Register UserManager from OWIN context
-            builder.Register(c =>
-                HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>())
-                .AsSelf().InstancePerRequest();
-            // Register SignInManager from OWIN context
-            builder.Register(c =>
-                HttpContext.Current.GetOwinContext().Get<ApplicationSignInManager>())
-                .AsSelf().InstancePerRequest();
+
 
             var container = builder.Build();
             // Set MVC Dependency Resolver

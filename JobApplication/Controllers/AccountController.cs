@@ -1,5 +1,4 @@
 ﻿using JobApplication.Models;
-using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using System;
 using System.Linq;
@@ -234,7 +233,7 @@ namespace JobApplication.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
 
@@ -268,13 +267,13 @@ namespace JobApplication.Controllers
             }
         }
 
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error);
-            }
-        }
+        //private void AddErrors(IdentityResult result)
+        //{
+        //    foreach (var error in result.Errors)
+        //    {
+        //        ModelState.AddModelError("", error);
+        //    }
+        //}
 
         private ActionResult RedirectToLocal(string returnUrl)
         {

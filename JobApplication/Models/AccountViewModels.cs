@@ -63,6 +63,14 @@ namespace JobApplication.Models
         public bool RememberMe { get; set; }
     }
 
+    public class LoginResult
+    {
+        public bool Success { get; set; }
+        public string ErrorMessage { get; set; }
+        public User User { get; set; }
+    }
+
+
     public class RegisterViewModel
     {
         [Required]
@@ -79,7 +87,7 @@ namespace JobApplication.Models
 
         [Display(Name = "Department")]
         [Required(ErrorMessage = "Please select a department.")]
-        public int? DepartmentId { get; set; }
+        public int DepartmentId { get; set; }
         public IEnumerable<SelectListItem> DepartmentList { get; set; }
 
         [Required]

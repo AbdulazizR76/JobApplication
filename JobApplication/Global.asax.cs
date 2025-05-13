@@ -1,6 +1,8 @@
 using Autofac;
 using Autofac.Integration.Mvc;
 using JobApplication.Models;
+using JobApplication.Services;
+using JobApplication.Services.Interfaces;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
@@ -20,8 +22,7 @@ namespace JobApplication
             builder.Register(c => HttpContext.Current.GetOwinContext()).AsSelf().InstancePerRequest();
             // Register DbContext (you can replace 'YourNamespace' with your actual namespace)
             builder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerRequest();
-            // Register other services if needed here...
-            // Register UserManager from OWIN context
+            builder.RegisterType<UserService>().As<IUserService>().InstancePerRequest();
 
 
             var container = builder.Build();

@@ -1,0 +1,34 @@
+﻿@model JobApplication.Models.EditProfileViewModel
+
+<h4 class="mb-4">Update Profile</h4>
+
+@using (Html.BeginForm("UpdateProfile", "Manage", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        @Html.LabelFor(m => m.Name, new { @class = "form-label" })
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Full name" })
+        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(m => m.Email, new { @class = "form-label" })
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email", type = "email" })
+        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(m => m.Position, new { @class = "form-label" })
+        @Html.TextBoxFor(m => m.Position, new { @class = "form-control", placeholder = "Job position" })
+        @Html.ValidationMessageFor(m => m.Position, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(m => m.DepartmentId, new { @class = "form-label" })
+        @Html.DropDownListFor(m => m.DepartmentId, Model.Departments, "Select department", new { @class = "form-select" })
+        @Html.ValidationMessageFor(m => m.DepartmentId, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+}

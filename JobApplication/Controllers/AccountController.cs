@@ -63,9 +63,10 @@ namespace JobApplication.Controllers
 
             // if login successful, create claimsIdentity and sing in with owin 
             var identity = new ClaimsIdentity("CustomAppCookie");
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, result.User.Id));
             identity.AddClaim(new Claim(ClaimTypes.Email, result.User.Email));
             identity.AddClaim(new Claim(ClaimTypes.Name, result.User.Name));
-            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, result.User.Id));
+
 
             foreach (var role in result.User.UserRoles.Select(ur => ur.Role.Name))
             {

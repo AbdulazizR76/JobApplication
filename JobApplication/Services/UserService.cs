@@ -1,10 +1,7 @@
 ﻿using JobApplication.Models;
 using JobApplication.Services.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace JobApplication.Services
 {
@@ -12,13 +9,15 @@ namespace JobApplication.Services
     public class UserService : IUserService
     {
         private readonly ApplicationDbContext _context;
-        public UserService(ApplicationDbContext context)
+        private readonly ICryptoService _cryptoService;
+        public UserService(ApplicationDbContext context, ICryptoService cryptoService)
         {
             _context = context;
+            _cryptoService = cryptoService;
         }
         public void Create(RegisterViewModel model)
         {
-            if (_context.Users.Any(u => u.Email == model.Email))
+            if (_context.Users.Any(u => u.Email.ToLower() == model.Email))
             {
                 throw new Exception("Email already exists");
             }
@@ -27,8 +26,8 @@ namespace JobApplication.Services
             {
                 Id = Guid.NewGuid().ToString(),
                 Username = model.Email.ToUpper(),
-                Email = model.Email,
-                PasswordHash = HashPassword(model.Password),
+                Email = model.Email.ToLower(),
+                PasswordHash = _cryptoService.HashPassword(model.Password),
                 Name = model.Name,
                 Position = model.Position,
                 DepartmentId = model.DepartmentId,
@@ -36,32 +35,46 @@ namespace JobApplication.Services
 
             _context.Users.Add(user);
 
-
+            var role = _context.Roles.FirstOrDefault(r => r.Name.ToUpper() == "USER");
+            if (role == null)
+            {
+                throw new Exception("Default role 'USER' not found.");
+            }
 
             var userRole = new UserRole
             {
                 UserId = user.Id,
-                RoleId = 2 // Assuming 2 is the role ID for "User"
+                RoleId = role.Id,
             };
             _context.UserRoles.Add(userRole);
             _context.SaveChanges();
 
         }
 
-        public void Delete(int id)
+        public void Delete(string id)
         {
-            throw new NotImplementedException();
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            if (user != null)
+            {
+                user.IsDeleted = true;
+                _context.SaveChanges();
+            }
         }
 
-        public IEnumerable<User> GetAll()
+        public IQueryable<User> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Users;
         }
 
         public LoginResult ValidateUser(string Email, string password)
         {
-            var user = _context.Users.FirstOrDefault(u =>
-        u.Email == Email);
+            // lazy loading 
+            //var user = _context.Users.FirstOrDefault(u => u.Email == Email);
+
+            // eager loading roles for better for the user 
+            var user = _context.Users
+                .Include("UserRoles.Role")
+                .FirstOrDefault(u => u.Email.ToLower() == Email.ToLower());
 
             if (user == null)
             {
@@ -81,48 +94,77 @@ namespace JobApplication.Services
                 };
             }
 
-            var hashedPassword = HashPassword(password);
-            if (user.PasswordHash != hashedPassword)
+            if (user.IsDeleted)
             {
                 return new LoginResult
                 {
                     Success = false,
-                    ErrorMessage = "Incorrect password."
+                    ErrorMessage = "This user account has been deleted."
                 };
             }
 
-            return new LoginResult
+            if (user.PasswordHash.StartsWith("$2a$") || user.PasswordHash.StartsWith("$2b$"))
             {
-                Success = true,
-                User = user
-            };
+                bool isValid = _cryptoService.VerifyPassword(password, user.PasswordHash);
+                if (!isValid)
+                {
+                    return new LoginResult { Success = false, ErrorMessage = "Incorrect password." };
+                }
+                return new LoginResult { Success = true, User = user };
+            }
+
+            var legacyHash = _cryptoService.HashSha256(password);
+            if (user.PasswordHash == legacyHash)
+            {
+                //  Valid old password — upgrade to BCrypt
+                user.PasswordHash = _cryptoService.HashPassword(password);
+                _context.SaveChanges();
+
+                return new LoginResult { Success = true, User = user };
+            }
+
+            return new LoginResult { Success = false, ErrorMessage = "Incorrect password." };
+
 
 
         }
 
-        public User getUserById(int id)
+        public User GetUserById(string id)
         {
-            throw new NotImplementedException();
+            User user = _context.Users
+                .Include("UserRoles.Role")
+                .FirstOrDefault(u => u.Id == id);
+            return user;
         }
 
         public void Update(User user)
         {
-            throw new NotImplementedException();
+            var userfromdb = _context.Users.FirstOrDefault(u => u.Id == user.Id);
+
+            if (userfromdb != null)
+            {
+                userfromdb.Name = user.Name;
+                userfromdb.Position = user.Position;
+                userfromdb.DepartmentId = user.DepartmentId;
+                userfromdb.IsActive = user.IsActive;
+                userfromdb.Email = user.Email.ToLower();
+                userfromdb.Username = user.Username.ToUpper();
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("User not found");
+            }
         }
 
         public bool UsernameExists(string username)
         {
-            throw new NotImplementedException();
+            return _context.Users.Any(u => u.Username == username.ToUpper());
         }
 
-        private string HashPassword(string password)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                var bytes = Encoding.UTF8.GetBytes(password);
-                var hash = sha256.ComputeHash(bytes);
-                return Convert.ToBase64String(hash);
-            }
-        }
+
+
+
+
     }
 }

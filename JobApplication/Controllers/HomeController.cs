@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Security.Claims;
+using System.Web.Mvc;
 
 namespace JobApplication.Controllers
 {
@@ -7,6 +8,12 @@ namespace JobApplication.Controllers
     {
         public ActionResult Index()
         {
+            var identity = (ClaimsIdentity)User.Identity;
+
+            string userId = identity.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            string userName = identity.FindFirst(ClaimTypes.Name)?.Value;
+            string email = identity.FindFirst(ClaimTypes.Email)?.Value;
+            var role = identity.FindFirst(ClaimTypes.Role)?.Value;
 
             return View();
         }

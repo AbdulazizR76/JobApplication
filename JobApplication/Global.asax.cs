@@ -4,7 +4,9 @@ using JobApplication.Models;
 using JobApplication.Services;
 using JobApplication.Services.Interfaces;
 using System.Reflection;
+using System.Security.Claims;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -23,6 +25,9 @@ namespace JobApplication
             // Register DbContext (you can replace 'YourNamespace' with your actual namespace)
             builder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerRequest();
             builder.RegisterType<UserService>().As<IUserService>().InstancePerRequest();
+            builder.RegisterType<CryptoService>().As<ICryptoService>().InstancePerRequest();
+            //here we are setting the Unique Identifier claim to our user 
+            AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
 
 
             var container = builder.Build();

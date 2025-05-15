@@ -18,3 +18,8 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+body, html {
+    font-family: 'Almarai', sans-serif !important;
+}

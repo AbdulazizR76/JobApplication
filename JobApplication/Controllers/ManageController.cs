@@ -70,6 +70,8 @@ namespace JobApplication.Controllers
             if (tab == "Delete")
             {
                 // Handle deletion view here
+                ViewBag.activeTab = "Delete";
+                return View();
             }
 
             return View();
@@ -94,7 +96,7 @@ namespace JobApplication.Controllers
 
             }
             _userService.UpdateProfile(model);
-            TempData["Success"] = "Profile updated!";
+            TempData["Success"] = "Profile Updated!";
             return RedirectToAction("Index", new { tab = "Profile" });
         }
 
@@ -120,12 +122,12 @@ namespace JobApplication.Controllers
             var result = _userService.ChangePassword(model);
             if (result.Success)
             {
-                TempData["Success"] = result.ErrorMessage;
+                TempData["Success"] = result.Message;
                 return RedirectToAction("Index", new { tab = "Password" });
             }
             else
             {
-                ModelState.AddModelError("", result.ErrorMessage);
+                ModelState.AddModelError("", result.Message);
                 ViewBag.ActiveTab = "Password";
                 return View("Index", model);
             }

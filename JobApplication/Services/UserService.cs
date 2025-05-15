@@ -182,11 +182,11 @@ namespace JobApplication.Services
             bool isValid = _cryptoService.VerifyPassword(model.CurrentPassword, user.PasswordHash);
             if (!isValid)
             {
-                return new ChangePasswordResult { Success = false, ErrorMessage = "Incorrect password." };
+                return new ChangePasswordResult { Success = false, Message = "Incorrect password." };
             }
             user.PasswordHash = _cryptoService.HashPassword(model.NewPassword);
             _context.SaveChanges();
-            return new ChangePasswordResult { Success = true, ErrorMessage = "password changed successfully" };
+            return new ChangePasswordResult { Success = true, Message = "Password Changed successfully" };
 
         }
     }

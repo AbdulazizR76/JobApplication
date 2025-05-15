@@ -57,6 +57,12 @@ namespace JobApplication.Controllers
 
             if (!result.Success)
             {
+                if (result.CanReactivate)
+                {
+                    _userService.RestoreAccount(result.User.Id);
+                    TempData["Success"] = "Your account has been reactivated. login please";
+                    return RedirectToAction("Login", "Account");
+                }
                 ModelState.AddModelError("", result.ErrorMessage);
                 return View(model);
             }
@@ -285,6 +291,14 @@ namespace JobApplication.Controllers
 
         }
 
+        [HttpGet]
+        public ActionResult LogOffGet()
+        {
+            var authManager = HttpContext.GetOwinContext().Authentication;
+            authManager.SignOut("CustomAppCookie");
+
+            return RedirectToAction("Login", "Account");
+        }
 
         //
         // POST: /Account/LogOff

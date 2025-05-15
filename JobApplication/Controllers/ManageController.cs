@@ -71,7 +71,11 @@ namespace JobApplication.Controllers
             {
                 // Handle deletion view here
                 ViewBag.activeTab = "Delete";
-                return View();
+                var model = new DeleteUser
+                {
+                    UserId = userId
+                };
+                return View(model);
             }
 
             return View();
@@ -136,10 +140,16 @@ namespace JobApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete()
+        public ActionResult Delete(DeleteUser model)
         {
-            // handle account deletion logic here
-            return View();
+            if (!ModelState.IsValid)
+            {
+                ViewBag.ActiveTab = "Delete";
+                return View("Index", model);
+            }
+
+            _userService.SoftDelete(model.UserId);
+            return RedirectToAction("LogOffGet", "Account");
         }
 
 

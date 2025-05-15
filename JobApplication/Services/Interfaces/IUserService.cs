@@ -12,7 +12,11 @@ namespace JobApplication.Services.Interfaces
         void Create(RegisterViewModel model);
         void Update(User user);
         void UpdateProfile(EditProfileViewModel model);
-        void Delete(string id);
+        void permanentDelete(string id);
+
+        void SoftDelete(string id);
+
+        void RestoreAccount(string id);
 
         ChangePasswordResult ChangePassword(ChangePasswordViewModel model);
     }

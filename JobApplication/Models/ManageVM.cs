@@ -52,4 +52,9 @@ namespace JobApplication.Models
         public bool Success { get; set; }
         public string Message { get; set; }
     }
+
+    public class DeleteUser
+    {
+        public string UserId { get; set; }
+    }
 }

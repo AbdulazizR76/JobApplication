@@ -51,12 +51,22 @@ namespace JobApplication.Services
 
         }
 
-        public void Delete(string id)
+        public void permanentDelete(string id)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            if (user != null)
+            {
+                _context.Users.Remove(user);
+                _context.SaveChanges();
+            }
+        }
+        public void SoftDelete(string id)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == id);
             if (user != null)
             {
                 user.IsDeleted = true;
+                user.DeletionRequestedDate = DateTime.Now;
                 _context.SaveChanges();
             }
         }
@@ -94,36 +104,73 @@ namespace JobApplication.Services
                 };
             }
 
-            if (user.IsDeleted)
+            //Validate password (BCrypt and fallback SHA256)
+            bool passwordValid = false;
+
+            if (user.PasswordHash.StartsWith("$2a$") || user.PasswordHash.StartsWith("$2b$"))
+            {
+                passwordValid = _cryptoService.VerifyPassword(password, user.PasswordHash);
+            }
+            else
+            {
+                var legacyHash = _cryptoService.HashSha256(password);
+                passwordValid = (user.PasswordHash == legacyHash);
+
+                // Auto-upgrade hash
+                if (passwordValid)
+                {
+                    user.PasswordHash = _cryptoService.HashPassword(password);
+                    _context.SaveChanges();
+                }
+            }
+
+            if (!passwordValid)
             {
                 return new LoginResult
                 {
                     Success = false,
-                    ErrorMessage = "This user account has been deleted."
+                    ErrorMessage = "Incorrect password."
                 };
             }
 
-            if (user.PasswordHash.StartsWith("$2a$") || user.PasswordHash.StartsWith("$2b$"))
+            // ✅ Step 2: Handle soft deletion
+            if (user.IsDeleted)
             {
-                bool isValid = _cryptoService.VerifyPassword(password, user.PasswordHash);
-                if (!isValid)
+                if (user.DeletionRequestedDate.HasValue &&
+                    DateTime.UtcNow > user.DeletionRequestedDate.Value.AddDays(30))
                 {
-                    return new LoginResult { Success = false, ErrorMessage = "Incorrect password." };
+                    return new LoginResult
+                    {
+                        Success = false,
+                        ErrorMessage = "This account has been permanently deleted."
+                    };
                 }
-                return new LoginResult { Success = true, User = user };
+
+                return new LoginResult
+                {
+                    Success = false,
+                    CanReactivate = true,
+                    ErrorMessage = "Your account is scheduled for deletion. Do you want to reactivate it?",
+                    User = user
+                };
             }
 
-            var legacyHash = _cryptoService.HashSha256(password);
-            if (user.PasswordHash == legacyHash)
+            // ❌ inactive user
+            if (!user.IsActive)
             {
-                //  Valid old password — upgrade to BCrypt
-                user.PasswordHash = _cryptoService.HashPassword(password);
-                _context.SaveChanges();
-
-                return new LoginResult { Success = true, User = user };
+                return new LoginResult
+                {
+                    Success = false,
+                    ErrorMessage = "This user account is inactive."
+                };
             }
 
-            return new LoginResult { Success = false, ErrorMessage = "Incorrect password." };
+            // ✅ All good
+            return new LoginResult
+            {
+                Success = true,
+                User = user
+            };
 
 
 
@@ -187,6 +234,29 @@ namespace JobApplication.Services
             user.PasswordHash = _cryptoService.HashPassword(model.NewPassword);
             _context.SaveChanges();
             return new ChangePasswordResult { Success = true, Message = "Password Changed successfully" };
+
+        }
+
+        public void RestoreAccount(string id)
+        {
+            var user = _context.Users
+                .FirstOrDefault(u => u.Id == id);
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+            if (user.IsDeleted == true)
+            {
+                user.IsDeleted = false;
+                user.DeletionRequestedDate = null;
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("User is not deleted");
+            }
+
+
 
         }
     }

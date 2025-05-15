@@ -213,6 +213,10 @@
     <Compile Include="Migrations\202505140942136_addIsDeletedToUser.Designer.cs">
       <DependentUpon>202505140942136_addIsDeletedToUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202505151054116_addDeleteRequestDateInUserTable.cs" />
+    <Compile Include="Migrations\202505151054116_addDeleteRequestDateInUserTable.Designer.cs">
+      <DependentUpon>202505151054116_addDeleteRequestDateInUserTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -298,6 +302,7 @@
     <Content Include="Views\Manage\_Profile.cshtml" />
     <Content Include="Views\Manage\_Password.cshtml" />
     <Content Include="Views\Shared\_Notification.cshtml" />
+    <Content Include="Views\Manage\_Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -341,6 +346,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202505140942136_addIsDeletedToUser.resx">
       <DependentUpon>202505140942136_addIsDeletedToUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505151054116_addDeleteRequestDateInUserTable.resx">
+      <DependentUpon>202505151054116_addDeleteRequestDateInUserTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

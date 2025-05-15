@@ -67,6 +67,7 @@ namespace JobApplication.Models
     {
         public bool Success { get; set; }
         public string ErrorMessage { get; set; }
+        public bool CanReactivate { get; set; } = false;
         public User User { get; set; }
     }
 

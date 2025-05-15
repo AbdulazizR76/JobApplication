@@ -29,7 +29,9 @@ namespace JobApplication.Models
 
         public bool IsActive { get; set; } = true;
 
-        public bool IsDeleted { get; set; } = false;
+        public bool IsDeleted { get; set; }
+
+        public DateTime? DeletionRequestedDate { get; set; }
 
         public int DepartmentId { get; set; }
 

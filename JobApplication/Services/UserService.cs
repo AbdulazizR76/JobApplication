@@ -157,14 +157,37 @@ namespace JobApplication.Services
             }
         }
 
+        public void UpdateProfile(EditProfileViewModel model)
+        {
+            var u = _context.Users.Find(model.UserId)
+                ?? throw new InvalidOperationException("User not found");
+
+            u.Name = model.Name;
+            u.Email = model.Email.ToLower();
+            u.Position = model.Position;
+            u.DepartmentId = model.DepartmentId;
+            _context.SaveChanges();
+        }
+
+
         public bool UsernameExists(string username)
         {
             return _context.Users.Any(u => u.Username == username.ToUpper());
         }
 
+        public ChangePasswordResult ChangePassword(ChangePasswordViewModel model)
+        {
+            User user = _context.Users.FirstOrDefault(u => u.Id == model.UserId);
 
+            bool isValid = _cryptoService.VerifyPassword(model.CurrentPassword, user.PasswordHash);
+            if (!isValid)
+            {
+                return new ChangePasswordResult { Success = false, ErrorMessage = "Incorrect password." };
+            }
+            user.PasswordHash = _cryptoService.HashPassword(model.NewPassword);
+            _context.SaveChanges();
+            return new ChangePasswordResult { Success = true, ErrorMessage = "password changed successfully" };
 
-
-
+        }
     }
 }

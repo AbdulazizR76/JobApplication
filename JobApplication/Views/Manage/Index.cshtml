@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "Manage your account";
     var activeTab = ViewBag.ActiveTab as string ?? "Profile";
+    ViewBag.Success = TempData["Success"];
 }
 
 <div class="container mt-5">
@@ -10,12 +11,12 @@
             <div class="list-group">
                 <a class="list-group-item list-group-item-action @(activeTab == "Profile" ? "active" : "")"
                    href="@Url.Action("Index", new { tab = "Profile" })">Profile</a>
-                <a class="list-group-item list-group-item-action @(activeTab == "Email" ? "active" : "")"
-                   href="@Url.Action("Index", new { tab = "Email" })">Email</a>
+                @*<a class="list-group-item list-group-item-action @(activeTab == "Email" ? "active" : "")"
+                   href="@Url.Action("Index", new { tab = "Email" })">Email</a>*@
                 <a class="list-group-item list-group-item-action @(activeTab == "Password" ? "active" : "")"
                    href="@Url.Action("Index", new { tab = "Password" })">Password</a>
-                <a class="list-group-item list-group-item-action @(activeTab == "Delete" ? "active" : "")"
-                   href="@Url.Action("Index", new { tab = "Delete" })">Personal Data</a>
+                @*<a class="list-group-item list-group-item-action @(activeTab == "Delete" ? "active" : "")"
+                   href="@Url.Action("Index", new { tab = "Delete" })">Personal Data</a>*@
             </div>
         </div>
 

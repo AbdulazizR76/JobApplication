@@ -21,6 +21,7 @@ namespace JobApplication.Controllers
         }
         public ActionResult Index(string tab = "Profile")
         {
+            ViewBag.ActiveTab = tab;
             var identity = (ClaimsIdentity)User.Identity;
             string userId = identity.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -34,6 +35,7 @@ namespace JobApplication.Controllers
 
                 var model = new EditProfileViewModel
                 {
+                    UserId = userId,
                     Name = user.Name,
                     Email = user.Email,
                     Position = user.Position,
@@ -45,7 +47,7 @@ namespace JobApplication.Controllers
                         Value = d.Id.ToString()
                     }).ToList()
                 };
-
+                ViewBag.ActiveTab = "Profile";
                 return View(model);
             }
 
@@ -56,7 +58,13 @@ namespace JobApplication.Controllers
 
             if (tab == "Password")
             {
+                var model = new ChangePasswordViewModel
+                {
+                    UserId = userId
+                };
                 // Handle password view  here
+                ViewBag.ActiveTab = "Password";
+                return View(model); // or return View(model);
             }
 
             if (tab == "Delete")
@@ -64,16 +72,30 @@ namespace JobApplication.Controllers
                 // Handle deletion view here
             }
 
-            return View(); // sends view with no model
+            return View();
 
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateProfile()
+        public ActionResult UpdateProfile(EditProfileViewModel model)
         {
             // handle profile update logic here
-            return View();
+            model.Departments = _context.Departments.Select(d => new SelectListItem
+            {
+                Text = d.Name,
+                Value = d.Id.ToString()
+            }).ToList();
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.ActiveTab = "Profile";
+                return View("Index", model);
+
+            }
+            _userService.UpdateProfile(model);
+            TempData["Success"] = "Profile updated!";
+            return RedirectToAction("Index", new { tab = "Profile" });
         }
 
         [HttpPost]
@@ -84,6 +106,31 @@ namespace JobApplication.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdatePasswrod(ChangePasswordViewModel model)
+        {
+            // handle email update logic here
+            if (!ModelState.IsValid)
+            {
+                ViewBag.ActiveTab = "Password";
+                return View("Index", model);
+            }
+
+            var result = _userService.ChangePassword(model);
+            if (result.Success)
+            {
+                TempData["Success"] = result.ErrorMessage;
+                return RedirectToAction("Index", new { tab = "Password" });
+            }
+            else
+            {
+                ModelState.AddModelError("", result.ErrorMessage);
+                ViewBag.ActiveTab = "Password";
+                return View("Index", model);
+            }
+
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -92,6 +139,8 @@ namespace JobApplication.Controllers
             // handle account deletion logic here
             return View();
         }
+
+
 
 
 

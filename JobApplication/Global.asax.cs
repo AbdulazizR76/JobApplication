@@ -22,7 +22,7 @@ namespace JobApplication
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
             // Register OWIN context
             builder.Register(c => HttpContext.Current.GetOwinContext()).AsSelf().InstancePerRequest();
-            // Register DbContext (you can replace 'YourNamespace' with your actual namespace)
+
             builder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerRequest();
             builder.RegisterType<UserService>().As<IUserService>().InstancePerRequest();
             builder.RegisterType<CryptoService>().As<ICryptoService>().InstancePerRequest();

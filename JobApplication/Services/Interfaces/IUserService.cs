@@ -11,6 +11,9 @@ namespace JobApplication.Services.Interfaces
         bool UsernameExists(string username);
         void Create(RegisterViewModel model);
         void Update(User user);
+        void UpdateProfile(EditProfileViewModel model);
         void Delete(string id);
+
+        ChangePasswordResult ChangePassword(ChangePasswordViewModel model);
     }
 }

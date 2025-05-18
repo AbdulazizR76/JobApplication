@@ -12,7 +12,9 @@ namespace JobApplication.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
-
+        public DbSet<AppFile> AppFiles { get; set; }
+        public DbSet<JobPost> JobPosts { get; set; }
+        public DbSet<JobApplicationRequest> JobApplications { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserRole>()

@@ -217,25 +217,38 @@
     <Compile Include="Migrations\202505151054116_addDeleteRequestDateInUserTable.Designer.cs">
       <DependentUpon>202505151054116_addDeleteRequestDateInUserTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202505181021290_addtables.cs" />
+    <Compile Include="Migrations\202505181021290_addtables.Designer.cs">
+      <DependentUpon>202505181021290_addtables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505181037262_addFileCategorycolumnInAppFile.cs" />
+    <Compile Include="Migrations\202505181037262_addFileCategorycolumnInAppFile.Designer.cs">
+      <DependentUpon>202505181037262_addFileCategorycolumnInAppFile.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AppFile.cs" />
+    <Compile Include="Models\JobApplication.cs" />
+    <Compile Include="Models\JobPost.cs" />
+    <Compile Include="Models\ViewModels\AccountVM.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Department.cs" />
-    <Compile Include="Models\ManageVM.cs" />
+    <Compile Include="Models\ViewModels\FileVM.cs" />
+    <Compile Include="Models\ViewModels\ManageVM.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Resources\AssemblyInfo.cs" />
     <None Include="Resources\Resources.Designer.cs" />
-    <None Include="Resources\AssemblyInfo1.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\CryptoService.cs" />
+    <Compile Include="Services\FileService.cs" />
     <Compile Include="Services\Interfaces\ICryptoService.cs" />
+    <Compile Include="Services\Interfaces\IFileService.cs" />
     <Compile Include="Services\Interfaces\IUserService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
@@ -358,13 +371,17 @@
     <EmbeddedResource Include="Migrations\202505151054116_addDeleteRequestDateInUserTable.resx">
       <DependentUpon>202505151054116_addDeleteRequestDateInUserTable.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505181021290_addtables.resx">
+      <DependentUpon>202505181021290_addtables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505181037262_addFileCategorycolumnInAppFile.resx">
+      <DependentUpon>202505181037262_addFileCategorycolumnInAppFile.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.ar.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Resources\Resources.ar1.resx" />
-    <None Include="Resources\Resources1.resx" />
     <None Include="Resources\Resources.resx" />
     <None Include="Resources\Resources.ar.resx" />
   </ItemGroup>

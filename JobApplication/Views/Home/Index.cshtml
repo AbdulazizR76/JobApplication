@@ -1,33 +1,72 @@
-﻿@{
+﻿@using Res = JobApplication.Properties.Resources
+
+@{
     ViewBag.Title = "Home Page";
 }
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1>@ViewBag.username</h1>
-        <h1>@ViewBag.userId</h1>
-        
-    </section>
+<main class="card">
+    <div class="row ">
+        <section class=" card-header" aria-labelledby="aspnetTitle">
+            <h1 id="title">@Res.ApplicationName</h1>
+            <p class="lead">@Res.System_WelcomeMessage</p>
 
-    <div class="row">
+        </section>
+    </div>
+
+    <div class="row card-body">
         <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+
+            <div class="card">
+                <h2 class="card-header" id="gettingStartedTitle">@Res.JobPosts</h2>
+
+                <div class="card-body">
+                    <p>@Res.Job_AddAndTrack </p>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <p><a class="btn btn-outline-dark" href="@Url.Action("Index", "PostJob")">@Res.ShowJobs &raquo;</a></p>
+
+                        <p><a class="btn btn-outline-dark" href="@Url.Action("Create", "PostJob")"> @Res.CreateNewJob &raquo;</a></p>
+                    </div>
+                </div>
+            </div>
         </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
+
+            <div class="card">
+                <h2 class="card-header" id="gettingStartedTitle">@Res.JobApplications</h2>
+
+                <div class="card-body">
+                    <p> @Res.Application_ReviewAndUpdate</p>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <p><a class="btn btn-outline-dark" href="@Url.Action("Index", "JobApplication")">@Res.ShowApplications &raquo;</a></p>
+
+                        <p><a class="btn btn-outline-dark" href="@Url.Action("Create", "JobApplication")"> @Res.CreateJobApplication &raquo;</a></p>
+                    </div>
+
+                </div>
+            </div>
         </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
+        @*<section class="col-md-4" aria-labelledby="gettingStartedTitle">
+
+                <div class="card">
+                    <h2 class="card-header" id="gettingStartedTitle">@Res.Decisions</h2>
+
+                    <div class="card-body">
+                        <p>
+                            @Res.Application_InterviewAndDecision
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <p><a class="btn btn-outline-dark" href="@Url.Action("ApplicationStatus", "JobApplication")">@Res.ShowDecisions &raquo;</a></p>
+
+                        </div>
+
+                    </div>
+                </div>
+            </section>*@
     </div>
 </main>

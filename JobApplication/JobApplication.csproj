@@ -226,6 +226,14 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Resources\AssemblyInfo.cs" />
+    <None Include="Resources\Resources.Designer.cs" />
+    <None Include="Resources\AssemblyInfo1.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Services\CryptoService.cs" />
     <Compile Include="Services\Interfaces\ICryptoService.cs" />
     <Compile Include="Services\Interfaces\IUserService.cs" />
@@ -350,6 +358,15 @@
     <EmbeddedResource Include="Migrations\202505151054116_addDeleteRequestDateInUserTable.resx">
       <DependentUpon>202505151054116_addDeleteRequestDateInUserTable.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.ar.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Resources\Resources.ar1.resx" />
+    <None Include="Resources\Resources1.resx" />
+    <None Include="Resources\Resources.resx" />
+    <None Include="Resources\Resources.ar.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

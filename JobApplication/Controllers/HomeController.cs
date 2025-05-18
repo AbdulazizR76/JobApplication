@@ -1,4 +1,6 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
+using System.Web;
 using System.Web.Mvc;
 
 namespace JobApplication.Controllers
@@ -6,6 +8,7 @@ namespace JobApplication.Controllers
 
     public class HomeController : Controller
     {
+        [Authorize]
         public ActionResult Index()
         {
             var identity = (ClaimsIdentity)User.Identity;
@@ -30,6 +33,19 @@ namespace JobApplication.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult SetLanguage(string lang)
+        {
+            if (!string.IsNullOrEmpty(lang))
+            {
+                HttpCookie langCookie = new HttpCookie("lang", lang);
+                langCookie.Expires = DateTime.Now.AddYears(1);
+                Response.Cookies.Add(langCookie);
+            }
+
+            string returnUrl = Request.UrlReferrer?.ToString() ?? Url.Action("Index", "Home");
+            return Redirect(returnUrl);
         }
     }
 }

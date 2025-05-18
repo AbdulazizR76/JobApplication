@@ -24,7 +24,7 @@ namespace JobApplication
             builder.Register(c => HttpContext.Current.GetOwinContext()).AsSelf().InstancePerRequest();
 
             builder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerRequest();
-            builder.RegisterType<UserService>().As<IUserService>().InstancePerRequest();
+            //builder.RegisterType<UserService>().As<IUserService>().InstancePerRequest();
             builder.RegisterType<CryptoService>().As<ICryptoService>().InstancePerRequest();
             //here we are setting the Unique Identifier claim to our user 
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;

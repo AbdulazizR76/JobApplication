@@ -8,15 +8,14 @@ namespace JobApplication.Controllers
 
     public class HomeController : Controller
     {
-        [Authorize]
         public ActionResult Index()
         {
-            var identity = (ClaimsIdentity)User.Identity;
+            //var identity = (ClaimsIdentity)User.Identity;
 
-            string userId = identity.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            string userName = identity.FindFirst(ClaimTypes.Name)?.Value;
-            string email = identity.FindFirst(ClaimTypes.Email)?.Value;
-            var role = identity.FindFirst(ClaimTypes.Role)?.Value;
+            //string userId = identity.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            //string userName = identity.FindFirst(ClaimTypes.Name)?.Value;
+            //string email = identity.FindFirst(ClaimTypes.Email)?.Value;
+            //var role = identity.FindFirst(ClaimTypes.Role)?.Value;
 
             return View();
         }

@@ -23,7 +23,7 @@
                 }
             </li>
             <li>
-                @Html.ActionLink(Res.Welcome +" "+ User.Identity.Name+" ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })
+                @Html.ActionLink(Res.Welcome +" "+ @*User.Identity.Name*@""+" ", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })
             </li>
             <li><a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>

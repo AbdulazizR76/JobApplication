@@ -22,9 +22,9 @@ namespace JobApplication.Models
 
         public string Status { get; set; }
 
-        [ForeignKey("User")]
-        public string MadeByUserId { get; set; }
-        public virtual User User { get; set; }
+        //[ForeignKey("User")]
+        //public string MadeByUserId { get; set; }
+        //public virtual User User { get; set; }
 
         public virtual ICollection<JobApplicationRequest> Applications { get; set; }
     }

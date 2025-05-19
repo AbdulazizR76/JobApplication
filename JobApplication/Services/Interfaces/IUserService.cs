@@ -6,11 +6,11 @@ namespace JobApplication.Services.Interfaces
     public interface IUserService
     {
         LoginResult ValidateUser(string Email, string password);
-        User GetUserById(string id);
-        IQueryable<User> GetAll();
+        ApplicationUser GetUserById(string id);
+        IQueryable<ApplicationUser> GetAll();
         bool UsernameExists(string username);
         void Create(RegisterViewModel model);
-        void Update(User user);
+        void Update(ApplicationUser user);
         void UpdateProfile(EditProfileViewModel model);
         void permanentDelete(string id);
 

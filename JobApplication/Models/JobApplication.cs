@@ -17,9 +17,9 @@ namespace JobApplication.Models
 
         public string Status { get; set; }
 
-        //[ForeignKey("User")]
-        //public string MadeByUserId { get; set; }
-        //public virtual User User { get; set; }
+        [ForeignKey("User")]
+        public string MadeByUserId { get; set; }
+        public virtual ApplicationUser User { get; set; }
         public bool IsDeleted { get; set; }
 
         [ForeignKey("JobPosts")]

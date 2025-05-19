@@ -207,6 +207,10 @@
     <Compile Include="Migrations\202505182155535_init.Designer.cs">
       <DependentUpon>202505182155535_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202505190628245_addConnectionbetweenApplicationUserAndJobPostJobApplication.cs" />
+    <Compile Include="Migrations\202505190628245_addConnectionbetweenApplicationUserAndJobPostJobApplication.Designer.cs">
+      <DependentUpon>202505190628245_addConnectionbetweenApplicationUserAndJobPostJobApplication.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AppFile.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -217,9 +221,6 @@
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\ViewModels\FileVM.cs" />
     <Compile Include="Models\ViewModels\ManageVM.cs" />
-    <Compile Include="Models\Role.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -339,6 +340,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202505182155535_init.resx">
       <DependentUpon>202505182155535_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505190628245_addConnectionbetweenApplicationUserAndJobPostJobApplication.resx">
+      <DependentUpon>202505190628245_addConnectionbetweenApplicationUserAndJobPostJobApplication.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.ar.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
